@@ -9,3 +9,6 @@ https://albertsaniza.github.io/peer-chat
 - Vite
 - React
 - Tailwind
+- Tanstack Router
+- UUID
+- PeerJs
