@@ -9,11 +9,11 @@ function Index() {
     const [roomId, setRoomId] = useState('')
 
     const createRoom = () => {
-        navigate({ to: `/room/${uuidv4()}` })
+        navigate({ to: `/${uuidv4()}` })
     }
 
     const joinRoom = () => {
-        navigate({ to: `/room/${roomId}` })
+        navigate({ to: `/${roomId}` })
     }
 
     return (
