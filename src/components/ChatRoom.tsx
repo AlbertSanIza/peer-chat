@@ -1,4 +1,4 @@
-import { LoaderIcon } from 'lucide-react'
+import { LoaderIcon, SendHorizonal } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -127,8 +127,8 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     }
 
     return (
-        <div className="flex h-full flex-col">
-            <div className="border-b p-4">
+        <div className="fixed flex size-full h-full flex-col">
+            <div className="border-b border-gray-300 p-4">
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-bold">Chat Room: {roomId}</h2>
                     <span className={`h-3 w-3 rounded-full ${connectedToPeer ? 'bg-green-500' : 'bg-red-500'}`}></span>
@@ -137,7 +137,6 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                 {!connectedToPeer && !connectionError && <p className="mt-2 text-sm text-gray-500">Waiting for someone to join...</p>}
                 <p className="mt-1 text-sm text-gray-500">Share this room ID with others to chat</p>
             </div>
-
             <div className="flex-1 overflow-auto p-4">
                 {messages.map((msg) => (
                     <Message key={msg.id} message={msg} />
@@ -145,26 +144,22 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                 <div ref={messagesEndRef} />
                 {messages.length === 0 && <p className="py-8 text-center text-gray-400">No messages yet. Start the conversation!</p>}
             </div>
-
-            <div className="border-t p-4">
-                <div className="flex gap-2">
-                    <textarea
-                        className="flex-1 resize-none rounded border p-2"
-                        placeholder="Type your message..."
-                        rows={2}
-                        value={messageText}
-                        onChange={(e) => setMessageText(e.target.value)}
-                        onKeyDown={handleKeyPress}
-                        disabled={!connectedToPeer}
-                    />
-                    <button
-                        className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:opacity-50"
-                        onClick={sendMessage}
-                        disabled={!messageText.trim() || !connectedToPeer}
-                    >
-                        Send
-                    </button>
-                </div>
+            <div className="relative flex border-t border-gray-300 px-6 py-4">
+                <input
+                    placeholder="Peer Chat"
+                    className="h-10 w-full rounded-3xl border border-gray-300"
+                    value={messageText}
+                    onKeyDown={handleKeyPress}
+                    disabled={!connectedToPeer}
+                    onChange={(e) => setMessageText(e.target.value)}
+                />
+                <button
+                    className="absolute right-8 bottom-6 rounded-full bg-blue-500 p-2.5 text-white"
+                    onClick={sendMessage}
+                    disabled={!messageText.trim() || !connectedToPeer}
+                >
+                    <SendHorizonal className="size-3" />
+                </button>
             </div>
         </div>
     )
