@@ -9,10 +9,8 @@ function RouteComponent() {
     const { id } = Route.useParams()
 
     return (
-        <div className="h-screen">
-            <PeerProvider peerId={id}>
-                <ChatRoom roomId={id} />
-            </PeerProvider>
-        </div>
+        <PeerProvider peerId={id}>
+            <ChatRoom roomId={id} />
+        </PeerProvider>
     )
 }
