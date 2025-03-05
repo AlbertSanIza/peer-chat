@@ -41,16 +41,15 @@ export function ChatRoom({ roomId }: { roomId: string }) {
         }
     }, [peer, roomId])
 
-    const setupConnection = (conn: Peer.DataConnection) => {
-        conn.on('open', () => {
+    const setupConnection = (connection: Peer.DataConnection) => {
+        connection.on('open', () => {
             console.log('Connected to peer')
-            setConnection(conn)
+            setConnection(connection)
             setConnectedToPeer(true)
             setConnectionError(null)
         })
-
-        conn.on('data', (data: any) => {
-            if (typeof data === 'object' && data.type === 'chat-message') {
+        connection.on('data', (data: any) => {
+            if (typeof data === 'object' && data.type === 'message') {
                 setMessages((prevMessages) => [
                     ...prevMessages,
                     {
@@ -60,44 +59,29 @@ export function ChatRoom({ roomId }: { roomId: string }) {
                 ])
             }
         })
-
-        conn.on('close', () => {
+        connection.on('close', () => {
             console.log('Connection closed')
             setConnectedToPeer(false)
             setConnectionError('Peer disconnected')
         })
-
-        conn.on('error', (err: Error) => {
+        connection.on('error', (err: Error) => {
             console.error('Connection error:', err)
             setConnectionError('Connection error: ' + err.message)
         })
     }
 
     const sendMessage = () => {
-        if (!message.trim('') || !connection) {
+        if (!message.trim() || !connection) {
             return
         }
-
-        const messageToSend: any = {
+        const messageToSend: IMessage = {
             id: uuidv4(),
-            content: message.trim(),
+            content: message,
             sender: 'me',
             timestamp: Date.now()
         }
-
-        // Add to local messages
         setMessages((prevMessages) => [...prevMessages, messageToSend])
-
-        // Send to peer
-        connection.send({
-            type: 'chat-message',
-            message: {
-                id: message.id,
-                content: message.content,
-                timestamp: message.timestamp
-            }
-        })
-
+        connection.send({ type: 'message', message: messageToSend })
         setMessage('')
     }
 
