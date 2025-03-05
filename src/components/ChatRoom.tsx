@@ -1,4 +1,5 @@
 import { LoaderIcon, SendHorizonal } from 'lucide-react'
+import type { DataConnection } from 'peerjs'
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 import QRCode from 'react-qr-code'
 import { v4 as uuidv4 } from 'uuid'
@@ -10,7 +11,7 @@ export function ChatRoom({ roomId }: { roomId: string }) {
     const { peer, status } = usePeer()
     const [messages, setMessages] = useState<IMessage[]>([])
     const [message, setMessage] = useState('')
-    const [connection, setConnection] = useState<Peer.DataConnection | null>(null)
+    const [connection, setConnection] = useState<DataConnection | null>(null)
     const [connectedToPeer, setConnectedToPeer] = useState(false)
     const [connectionError, setConnectionError] = useState<string | null>(null)
     const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -41,7 +42,7 @@ export function ChatRoom({ roomId }: { roomId: string }) {
         }
     }, [peer, roomId])
 
-    const setupConnection = (connection: Peer.DataConnection) => {
+    const setupConnection = (connection: DataConnection) => {
         connection.on('open', () => {
             console.log('Connected to peer')
             setConnection(connection)
