@@ -80,7 +80,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     const sendMessage = () => {
         // if (!message || !connection) return
 
-        const messageToSend: IMessage = {
+        const messageToSend: any = {
             id: uuidv4(),
             content: message.trim(),
             sender: 'me',
@@ -138,12 +138,12 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                 <p className="mt-1 text-sm text-gray-500">Share this room ID with others to chat</p>
             </div>
             <div className="flex-1 overflow-hidden">
-                <div>
+                <div className="size-full overflow-auto">
                     {messages.map((msg) => (
                         <Message key={msg.id} message={msg} />
                     ))}
+                    <div ref={messagesEndRef} />
                 </div>
-                <div ref={messagesEndRef} />
             </div>
             <div className="relative flex border-t border-gray-300 p-4">
                 <input
