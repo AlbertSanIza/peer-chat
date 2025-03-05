@@ -11,27 +11,18 @@ export function PeerProvider({ children, peerId }: { children: ReactNode; peerId
         if (!peerId) {
             return
         }
-
         setStatus((prevStatus) => ({ ...prevStatus, loading: true, error: null }))
-
         const newPeer = new Peer(peerId)
-
         newPeer.on('open', () => {
-            console.log('Peer connection established')
             setStatus((prevStatus) => ({ ...prevStatus, loading: false, online: true }))
             setPeer(newPeer)
         })
-
-        newPeer.on('error', (err) => {
-            console.error('Peer connection error:', err)
-            setStatus((prevStatus) => ({ ...prevStatus, loading: false, error: err }))
+        newPeer.on('error', (error) => {
+            setStatus((prevStatus) => ({ ...prevStatus, loading: false, error }))
         })
-
         newPeer.on('disconnected', () => {
-            console.log('Peer disconnected')
             setStatus((prevStatus) => ({ ...prevStatus, online: false }))
         })
-
         newPeer.on('close', () => {
             setStatus((prevStatus) => ({ ...prevStatus, online: false }))
             setPeer(null)
