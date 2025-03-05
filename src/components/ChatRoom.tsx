@@ -1,5 +1,7 @@
+import { LoaderIcon } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+
 import { usePeer } from '../context/usePeer'
 import { IMessage, Message } from './Message'
 
@@ -8,7 +10,7 @@ interface ChatRoomProps {
 }
 
 export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
-    const { peer, connecting, connected, error } = usePeer()
+    const { peer, status } = usePeer()
     const [messages, setMessages] = useState<IMessage[]>([])
     const [messageText, setMessageText] = useState('')
     const [connection, setConnection] = useState<Peer.DataConnection | null>(null)
@@ -23,7 +25,9 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
 
     // Handle incoming connections
     useEffect(() => {
-        if (!peer) return
+        if (!peer) {
+            return
+        }
 
         peer.on('connection', (conn) => {
             setupConnection(conn)
@@ -67,7 +71,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
             setConnectionError('Peer disconnected')
         })
 
-        conn.on('error', (err) => {
+        conn.on('error', (err: Error) => {
             console.error('Connection error:', err)
             setConnectionError('Connection error: ' + err.message)
         })
@@ -106,15 +110,19 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
         }
     }
 
-    if (connecting) {
-        return <div className="fixed flex size-full items-center justify-center">Connecting...</div>
+    if (status.loading) {
+        return (
+            <div className="fixed flex size-full items-center justify-center">
+                <LoaderIcon className="animate-spin" />
+            </div>
+        )
     }
 
-    if (error) {
-        return <div className="fixed flex size-full items-center justify-center text-red-500">Error: {error.message}</div>
+    if (status.error) {
+        return <div className="fixed flex size-full items-center justify-center text-red-500">Error: {status.error.message}</div>
     }
 
-    if (!connected) {
+    if (!status.online) {
         return <div className="fixed flex size-full items-center justify-center text-red-500">Failed to connect to the chat room</div>
     }
 
