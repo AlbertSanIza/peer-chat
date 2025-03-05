@@ -21,7 +21,7 @@ function Index() {
             <div className="grid w-100 gap-6">
                 <h1 className="text-center text-3xl font-bold">Peer Chat</h1>
                 <button className="cursor-pointer rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600" onClick={createRoom}>
-                    Create Room
+                    New Room
                 </button>
                 <hr />
                 <div className="flex flex-col gap-3">
