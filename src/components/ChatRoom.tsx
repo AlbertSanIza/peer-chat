@@ -137,7 +137,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                 {!connectedToPeer && !connectionError && <p className="mt-2 text-sm text-gray-500">Waiting for someone to join...</p>}
                 <p className="mt-1 text-sm text-gray-500">Share this room ID with others to chat</p>
             </div>
-            <div className="flex-1 overflow-auto p-4">
+            <div className="flex-1 overflow-auto p-6">
                 {messages.map((msg) => (
                     <Message key={msg.id} message={msg} />
                 ))}
@@ -147,7 +147,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
             <div className="relative flex border-t border-gray-300 p-4">
                 <input
                     placeholder="Peer Chat"
-                    className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2"
+                    className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2.5"
                     value={message}
                     onKeyDown={handleKeyPress}
                     onChange={(event) => setMessage(event.target.value.trim())}
