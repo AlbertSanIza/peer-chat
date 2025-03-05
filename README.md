@@ -12,3 +12,4 @@ https://albertsaniza.github.io/peer-chat
 - Tanstack Router
 - UUID
 - PeerJs
+- React QR Code
