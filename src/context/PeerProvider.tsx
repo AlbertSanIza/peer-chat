@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from 'react'
 
 import { PeerContext } from './usePeer'
 
-export const PeerProvider: React.FC<{ children: ReactNode; peerId?: string }> = ({ children, peerId }) => {
+export function PeerProvider({ children, peerId }: { children: ReactNode; peerId: string }) {
     const [peer, setPeer] = useState<Peer | null>(null)
     const [connecting, setConnecting] = useState(false)
     const [connected, setConnected] = useState(false)
