@@ -12,7 +12,7 @@ interface ChatRoomProps {
 export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     const { peer, status } = usePeer()
     const [messages, setMessages] = useState<IMessage[]>([])
-    const [messageText, setMessageText] = useState('')
+    const [message, setMessage] = useState('')
     const [connection, setConnection] = useState<Peer.DataConnection | null>(null)
     const [connectedToPeer, setConnectedToPeer] = useState(false)
     const [connectionError, setConnectionError] = useState<string | null>(null)
@@ -78,17 +78,17 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     }
 
     const sendMessage = () => {
-        if (!messageText.trim() || !connection) return
+        if (!message || !connection) return
 
-        const message: IMessage = {
+        const messageToSend: IMessage = {
             id: uuidv4(),
-            content: messageText.trim(),
+            content: message.trim(),
             sender: 'me',
             timestamp: Date.now()
         }
 
         // Add to local messages
-        setMessages((prevMessages) => [...prevMessages, message])
+        setMessages((prevMessages) => [...prevMessages, messageToSend])
 
         // Send to peer
         connection.send({
@@ -100,7 +100,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
             }
         })
 
-        setMessageText('')
+        setMessage('')
     }
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -112,7 +112,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
 
     if (status.loading) {
         return (
-            <div className="fixed flex size-full items-center justify-center">
+            <div className="fixed flex size-full items-center justify-center text-gray-300">
                 <LoaderIcon className="animate-spin" />
             </div>
         )
@@ -144,18 +144,18 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                 <div ref={messagesEndRef} />
                 {messages.length === 0 && <p className="py-8 text-center text-gray-400">No messages yet. Start the conversation!</p>}
             </div>
-            <div className="relative flex border-t border-gray-300 px-6 py-4">
+            <div className="relative flex border-t border-gray-300 p-4">
                 <input
                     placeholder="Peer Chat"
                     className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2"
-                    value={messageText}
+                    value={message}
                     onKeyDown={handleKeyPress}
-                    onChange={(event) => setMessageText(event.target.value)}
+                    onChange={(event) => setMessage(event.target.value.trim())}
                 />
                 <button
-                    className="absolute right-8 bottom-6 rounded-full bg-blue-500 p-2.5 text-white disabled:opacity-50"
+                    className="absolute right-6 bottom-6 rounded-full bg-blue-500 p-2.5 text-white disabled:opacity-50"
                     onClick={sendMessage}
-                    disabled={!messageText.trim() || !connectedToPeer}
+                    disabled={!message || !connectedToPeer}
                 >
                     <SendHorizonal className="size-3" />
                 </button>
