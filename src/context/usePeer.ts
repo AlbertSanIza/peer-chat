@@ -8,6 +8,4 @@ export const PeerContext = createContext<{ peer: Peer | null; connecting: boolea
     error: null
 })
 
-const usePeer = () => useContext(PeerContext)
-
-export default usePeer
+export const usePeer = () => useContext(PeerContext)
