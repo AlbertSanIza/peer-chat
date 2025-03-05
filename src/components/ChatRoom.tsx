@@ -147,14 +147,13 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
             <div className="relative flex border-t border-gray-300 px-6 py-4">
                 <input
                     placeholder="Peer Chat"
-                    className="h-12 w-full rounded-3xl border border-gray-300 pl-1.5"
+                    className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2"
                     value={messageText}
                     onKeyDown={handleKeyPress}
-                    disabled={!connectedToPeer}
-                    onChange={(e) => setMessageText(e.target.value)}
+                    onChange={(event) => setMessageText(event.target.value)}
                 />
                 <button
-                    className="absolute right-8 bottom-6 rounded-full bg-blue-500 p-2.5 text-white"
+                    className="absolute right-8 bottom-6 rounded-full bg-blue-500 p-2.5 text-white disabled:opacity-50"
                     onClick={sendMessage}
                     disabled={!messageText.trim() || !connectedToPeer}
                 >
