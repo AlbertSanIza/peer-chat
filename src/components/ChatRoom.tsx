@@ -111,19 +111,11 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     }
 
     if (error) {
-        return (
-            <div className="flex h-full items-center justify-center">
-                <p className="text-center text-red-500">Error connecting: {error.message}</p>
-            </div>
-        )
+        return <div className="fixed flex size-full items-center justify-center text-red-500">Error: {error.message}</div>
     }
 
     if (!connected) {
-        return (
-            <div className="flex h-full items-center justify-center">
-                <p className="text-center">Failed to connect to the chat room</p>
-            </div>
-        )
+        return <div className="fixed flex size-full items-center justify-center text-red-500">Failed to connect to the chat room</div>
     }
 
     return (
