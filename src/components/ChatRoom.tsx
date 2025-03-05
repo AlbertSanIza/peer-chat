@@ -20,17 +20,13 @@ export function ChatRoom({ roomId }: { roomId: string }) {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [messages])
 
-    // Handle incoming connections
     useEffect(() => {
         if (!peer) {
             return
         }
-
         peer.on('connection', (conn) => {
             setupConnection(conn)
         })
-
-        // Try to connect if we're not the creator of the room
         if (peer.id !== roomId) {
             try {
                 const conn = peer.connect(roomId)
@@ -81,8 +77,8 @@ export function ChatRoom({ roomId }: { roomId: string }) {
             sender: 'me',
             timestamp: Date.now()
         }
-        setMessages((prevMessages) => [...prevMessages, messageToSend])
         connection.send({ type: 'message', message: messageToSend })
+        setMessages((prevMessages) => [...prevMessages, messageToSend])
         setMessage('')
     }
 
