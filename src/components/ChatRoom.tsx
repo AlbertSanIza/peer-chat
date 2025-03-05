@@ -78,7 +78,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     }
 
     const sendMessage = () => {
-        if (!message || !connection) return
+        // if (!message || !connection) return
 
         const messageToSend: IMessage = {
             id: uuidv4(),
@@ -103,9 +103,9 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
         setMessage('')
     }
 
-    const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault()
+    const handleKeyPress = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault()
             sendMessage()
         }
     }
@@ -137,10 +137,12 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                 {!connectedToPeer && !connectionError && <p className="mt-2 text-sm text-gray-500">Waiting for someone to join...</p>}
                 <p className="mt-1 text-sm text-gray-500">Share this room ID with others to chat</p>
             </div>
-            <div className="flex-1 overflow-auto p-6">
-                {messages.map((msg) => (
-                    <Message key={msg.id} message={msg} />
-                ))}
+            <div className="flex-1 overflow-hidden">
+                <div>
+                    {messages.map((msg) => (
+                        <Message key={msg.id} message={msg} />
+                    ))}
+                </div>
                 <div ref={messagesEndRef} />
             </div>
             <div className="relative flex border-t border-gray-300 p-4">
@@ -149,7 +151,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                     className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2.5"
                     value={message}
                     onKeyDown={handleKeyPress}
-                    onChange={(event) => setMessage(event.target.value.trim())}
+                    onChange={(event) => setMessage(event.target.value)}
                 />
                 <button
                     className="absolute right-6 bottom-6 rounded-full bg-blue-500 p-2.5 text-white disabled:opacity-50"
