@@ -1,17 +1,11 @@
-import React from 'react'
-
-export interface IMessage {
+export interface Message {
     id: string
     content: string
     sender: 'me' | 'peer'
     timestamp: number
 }
 
-interface MessageProps {
-    message: IMessage
-}
-
-export const Message: React.FC<MessageProps> = ({ message }) => {
+export function Message({ message }: { message: Message }) {
     const isMe = message.sender === 'me'
 
     return (
