@@ -1,15 +1,12 @@
 import { LoaderIcon, SendHorizonal } from 'lucide-react'
-import React, { useEffect, useRef, useState } from 'react'
+import { KeyboardEvent, useEffect, useRef, useState } from 'react'
+import QRCode from 'react-qr-code'
 import { v4 as uuidv4 } from 'uuid'
 
 import { usePeer } from '../context/usePeer'
 import { IMessage, Message } from './Message'
 
-interface ChatRoomProps {
-    roomId: string
-}
-
-export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
+export function ChatRoom({ roomId }: { roomId: string }) {
     const { peer, status } = usePeer()
     const [messages, setMessages] = useState<IMessage[]>([])
     const [message, setMessage] = useState('')
@@ -18,7 +15,6 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     const [connectionError, setConnectionError] = useState<string | null>(null)
     const messagesEndRef = useRef<HTMLDivElement>(null)
 
-    // Auto-scroll to bottom when new messages arrive
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [messages])
@@ -78,7 +74,9 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     }
 
     const sendMessage = () => {
-        // if (!message || !connection) return
+        if (!message.trim('') || !connection) {
+            return
+        }
 
         const messageToSend: any = {
             id: uuidv4(),
@@ -103,7 +101,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
         setMessage('')
     }
 
-    const handleKeyPress = (event: React.KeyboardEvent) => {
+    const handleKeyPress = (event: KeyboardEvent) => {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault()
             sendMessage()
@@ -128,14 +126,18 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
 
     return (
         <div className="fixed flex size-full h-full flex-col">
-            <div className="border-b border-gray-300 p-4">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-bold">Chat Room: {roomId}</h2>
-                    <span className={`h-3 w-3 rounded-full ${connectedToPeer ? 'bg-green-500' : 'bg-red-500'}`}></span>
+            <div className="grid grid-cols-[80px_auto] gap-4 border-b border-gray-300 p-4">
+                <QRCode value={window.location.href} style={{ height: 'auto', maxWidth: '100%', width: '100%' }} />
+                <div>
+                    <div className="flex items-center justify-between">
+                        <div className="text-xl font-bold">{roomId}</div>
+                        <span
+                            className={`h-3 w-3 ${connectedToPeer ? '' : 'animate-pulse'} rounded-full ${connectedToPeer ? 'bg-green-500' : 'bg-red-500'}`}
+                        ></span>
+                    </div>
+                    {connectionError && <p className="mt-2 text-sm text-red-500">{connectionError}</p>}
+                    {!connectedToPeer && !connectionError && <p className="mt-2 text-sm text-gray-500">Waiting for someone to join...</p>}
                 </div>
-                {connectionError && <p className="mt-2 text-sm text-red-500">{connectionError}</p>}
-                {!connectedToPeer && !connectionError && <p className="mt-2 text-sm text-gray-500">Waiting for someone to join...</p>}
-                <p className="mt-1 text-sm text-gray-500">Share this room ID with others to chat</p>
             </div>
             <div className="flex-1 overflow-hidden">
                 <div className="size-full overflow-auto">
