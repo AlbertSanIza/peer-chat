@@ -142,7 +142,6 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                     <Message key={msg.id} message={msg} />
                 ))}
                 <div ref={messagesEndRef} />
-                {messages.length === 0 && <p className="py-8 text-center text-gray-400">No messages yet. Start the conversation!</p>}
             </div>
             <div className="relative flex border-t border-gray-300 p-4">
                 <input
