@@ -1,35 +1,18 @@
 import Peer from 'peerjs'
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
-interface PeerContextType {
-    peer: Peer | null
-    connecting: boolean
-    connected: boolean
-    error: Error | null
-}
+import { PeerContext } from './usePeer'
 
-const PeerContext = createContext<PeerContextType>({
-    peer: null,
-    connecting: false,
-    connected: false,
-    error: null
-})
-
-export const usePeer = () => useContext(PeerContext)
-
-interface PeerProviderProps {
-    children: ReactNode
-    peerId?: string
-}
-
-export const PeerProvider: React.FC<PeerProviderProps> = ({ children, peerId }) => {
+export const PeerProvider: React.FC<{ children: ReactNode; peerId?: string }> = ({ children, peerId }) => {
     const [peer, setPeer] = useState<Peer | null>(null)
     const [connecting, setConnecting] = useState(false)
     const [connected, setConnected] = useState(false)
     const [error, setError] = useState<Error | null>(null)
 
     useEffect(() => {
-        if (!peerId) return
+        if (!peerId) {
+            return
+        }
 
         setConnecting(true)
         setError(null)

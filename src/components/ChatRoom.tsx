@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { usePeer } from '../context/PeerContext'
+import { usePeer } from '../context/usePeer'
 import { IMessage, Message } from './Message'
 
 interface ChatRoomProps {

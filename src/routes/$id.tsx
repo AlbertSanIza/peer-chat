@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { ChatRoom } from '../components/ChatRoom'
-import { PeerProvider } from '../context/PeerContext'
+import { PeerProvider } from '../context/PeerProvider'
 
 export const Route = createFileRoute('/$id')({ component: RouteComponent })
 
