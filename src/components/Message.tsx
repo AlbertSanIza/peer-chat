@@ -1,11 +1,11 @@
-export interface Message {
+export interface IMessage {
     id: string
     content: string
     sender: 'me' | 'peer'
     timestamp: number
 }
 
-export function Message({ message }: { message: Message }) {
+export function Message({ message }: { message: IMessage }) {
     const isMe = message.sender === 'me'
 
     return (
