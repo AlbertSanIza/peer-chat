@@ -45,17 +45,19 @@ export function ChatRoom({ roomId }: { roomId: string }) {
             setConnectedToPeer(true)
             setConnectionError(null)
         })
-        connection.on('data', (data: any) => {
-            if (typeof data === 'object' && data.type === 'message') {
+        connection.on('data', (data: unknown) => {
+            const message = data as { type: string; message: IMessage }
+            if (message.type === 'message') {
                 setMessages((prevMessages) => [
                     ...prevMessages,
                     {
-                        ...data.message,
+                        ...message.message,
                         sender: 'peer'
                     }
                 ])
             }
         })
+
         connection.on('close', () => {
             console.log('Connection closed')
             setConnectedToPeer(false)
