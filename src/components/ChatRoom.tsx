@@ -108,7 +108,7 @@ export function ChatRoom({ roomId }: { roomId: string }) {
     }
 
     return (
-        <div className="fixed flex size-full h-full flex-col">
+        <div className="fixed flex size-full h-full flex-col pb-[81px]">
             <div className="grid grid-cols-[80px_auto] gap-4 border-b border-gray-300 p-4">
                 <QRCode value={window.location.href} style={{ height: 'auto', maxWidth: '100%', width: '100%' }} />
                 <div>
@@ -123,14 +123,14 @@ export function ChatRoom({ roomId }: { roomId: string }) {
                 </div>
             </div>
             <div className="flex-1 overflow-hidden">
-                <div className="size-full overflow-auto">
+                <div className="size-full overflow-auto pt-2">
                     {messages.map((msg) => (
                         <Message key={msg.id} message={msg} />
                     ))}
                     <div ref={messagesEndRef} />
                 </div>
             </div>
-            <div className="relative flex border-t border-gray-300 p-4">
+            <div className="absolute bottom-0 flex w-full border-t border-gray-300 p-4">
                 <input
                     placeholder="Peer Chat"
                     className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2.5"
