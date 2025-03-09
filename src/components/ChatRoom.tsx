@@ -110,7 +110,7 @@ export function ChatRoom({ roomId }: { roomId: string }) {
                     <div className="flex items-center justify-between">
                         <div className="text-xl font-bold">{roomId}</div>
                         <span
-                            className={`h-3 w-3 ${connectedToPeer ? '' : 'animate-pulse'} rounded-full ${connectedToPeer ? 'bg-green-500' : 'bg-red-500'}`}
+                            className={`size-3 min-w-3 ${connectedToPeer ? '' : 'animate-pulse'} rounded-full ${connectedToPeer ? 'bg-green-500' : 'bg-red-500'}`}
                         ></span>
                     </div>
                     {connectionError && <p className="mt-2 text-sm text-red-500">{connectionError}</p>}
