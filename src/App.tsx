@@ -3,8 +3,9 @@ import type { DataConnection } from 'peerjs'
 import { useEffect, useRef, useState } from 'react'
 import QRCode from 'react-qr-code'
 
-import { IMessage, Message } from './Message'
+import { IMessage } from './Message'
 import Footer from './components/Footer'
+import Messages from './components/Messages'
 import { usePeer } from './context/usePeer'
 
 export default function App() {
@@ -72,38 +73,25 @@ export default function App() {
     }
 
     return (
-        <>
-            <div className="absolute flex size-full flex-col items-center justify-center text-3xl font-bold opacity-10">
-                <span>Peer Chat</span>
-                {status.loading ? <LoaderIcon className="animate-spin" /> : null}
-            </div>
-            <div className="fixed flex size-full flex-col">
-                <div className="border-b border-gray-300 p-4">
-                    {status.loading ? (
-                        <LoaderIcon className="animate-spin" />
-                    ) : (
-                        <div className="flex flex-col items-center justify-center gap-4">
-                            <div>ID: {peer?.id}</div>
-                            <div className="flex size-30 items-center">
-                                {status.online && peer && <QRCode value={peer.id} style={{ height: 'auto', maxWidth: '100%', width: '100%' }} />}
-                            </div>
-                            <input className="border border-gray-300" placeholder="Enter Peer ID" onChange={(event) => setPeerId(event.target.value)} />
-                            <button className="rounded-md bg-blue-500 p-1 text-white" onClick={() => connectToPeer(peerId)}>
-                                Connect
-                            </button>
+        <div className="fixed flex size-full flex-col">
+            <div className="border-b border-gray-300 p-4">
+                {status.loading ? (
+                    <LoaderIcon className="animate-spin" />
+                ) : (
+                    <div className="flex flex-col items-center justify-center gap-4">
+                        <div>ID: {peer?.id}</div>
+                        <div className="flex size-30 items-center">
+                            {status.online && peer && <QRCode value={peer.id} style={{ height: 'auto', maxWidth: '100%', width: '100%' }} />}
                         </div>
-                    )}
-                </div>
-                <div className="flex-1 overflow-hidden">
-                    <div className="size-full overflow-auto pt-2">
-                        {messages.map((msg, index) => (
-                            <Message key={index} message={msg} />
-                        ))}
-                        <div ref={messagesEndRef} />
+                        <input className="border border-gray-300" placeholder="Enter Peer ID" onChange={(event) => setPeerId(event.target.value)} />
+                        <button className="rounded-md bg-blue-500 p-1 text-white" onClick={() => connectToPeer(peerId)}>
+                            Connect
+                        </button>
                     </div>
-                </div>
-                <Footer connection={connection} onSendMessage={(message) => sendMessage(message)} />
+                )}
             </div>
-        </>
+            <Messages messages={messages} />
+            <Footer connection={connection} onSendMessage={(message) => sendMessage(message)} />
+        </div>
     )
 }
