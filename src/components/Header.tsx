@@ -3,7 +3,7 @@ import QRCode from 'react-qr-code'
 
 import { usePeer } from '../context/usePeer'
 
-export default function Header({ connected, onConnect }: { connected: boolean; onConnect: (peerId: string) => void }) {
+export default function Header({ connected, onConnect, onDisconnect }: { connected: boolean; onConnect: (peerId: string) => void; onDisconnect?: () => void }) {
     const { peer } = usePeer()
     const [peerId, setPeerId] = useState('')
 
@@ -12,6 +12,10 @@ export default function Header({ connected, onConnect }: { connected: boolean; o
             return
         }
         onConnect(peerId.trim())
+    }
+
+    const handleDisconnect = () => {
+        onDisconnect?.()
     }
 
     return (
@@ -26,20 +30,29 @@ export default function Header({ connected, onConnect }: { connected: boolean; o
                     </button>
                     <div className={`size-3 min-w-3 ${connected ? '' : 'animate-pulse'} rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`}></div>
                 </div>
-                <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
-                    <input
-                        className="h-10 min-h-10 w-full rounded-sm border border-gray-300 px-2"
-                        placeholder="Enter Peer ID"
-                        onChange={(event) => setPeerId(event.target.value)}
-                    />
+                {connected ? (
                     <button
-                        className="w-full cursor-pointer rounded-md bg-blue-500 p-2 text-white disabled:cursor-default disabled:opacity-50 sm:w-fit"
-                        onClick={handleConnect}
-                        disabled={!peerId.trim()}
+                        className="w-full cursor-pointer rounded-md bg-red-500 p-2 text-white disabled:cursor-default disabled:opacity-50 sm:w-fit"
+                        onClick={handleDisconnect}
                     >
-                        Connect
+                        Disconnect
                     </button>
-                </div>
+                ) : (
+                    <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
+                        <input
+                            className="h-10 min-h-10 w-full rounded-sm border border-gray-300 px-2"
+                            placeholder="Enter Peer ID"
+                            onChange={(event) => setPeerId(event.target.value)}
+                        />
+                        <button
+                            className="w-full cursor-pointer rounded-md bg-blue-500 p-2 text-white disabled:cursor-default disabled:opacity-50 sm:w-fit"
+                            onClick={handleConnect}
+                            disabled={!peerId.trim()}
+                        >
+                            Connect
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     )
