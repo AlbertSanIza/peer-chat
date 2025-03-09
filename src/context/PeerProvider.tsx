@@ -12,7 +12,14 @@ export function PeerProvider({ children, peerId }: { children: ReactNode; peerId
             return
         }
         setStatus((prevStatus) => ({ ...prevStatus, loading: true, error: null }))
-        let newPeer = new Peer(peerId)
+
+        const peerConfig = {
+            config: {
+                iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }, { urls: 'stun:stun2.l.google.com:19302' }]
+            }
+        }
+
+        let newPeer = new Peer(peerId, peerConfig)
         newPeer.on('open', () => {
             setStatus((prevStatus) => ({ ...prevStatus, loading: false, online: true }))
             setPeer(newPeer)
