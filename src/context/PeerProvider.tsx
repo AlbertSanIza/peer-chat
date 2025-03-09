@@ -27,7 +27,7 @@ export function PeerProvider({ children, peerId }: { children: ReactNode; peerId
         newPeer.on('error', (error) => {
             if (error.type === 'unavailable-id') {
                 newPeer.destroy()
-                newPeer = new Peer()
+                newPeer = new Peer(peerConfig)
                 newPeer.on('open', () => {
                     setStatus((prevStatus) => ({ ...prevStatus, loading: false, online: true }))
                     setPeer(newPeer)
