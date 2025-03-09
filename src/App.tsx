@@ -1,6 +1,7 @@
 import type { DataConnection } from 'peerjs'
 import { useEffect, useState } from 'react'
 
+import { LoaderIcon } from 'lucide-react'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import { IMessage } from './components/Message'
@@ -64,6 +65,22 @@ export default function App() {
         }
         connection.send({ type: 'message', message })
         setMessages((prevMessages) => [...prevMessages, message])
+    }
+
+    if (status.loading) {
+        return (
+            <div className="fixed flex size-full items-center justify-center text-gray-300">
+                <LoaderIcon className="animate-spin" />
+            </div>
+        )
+    }
+
+    if (status.error) {
+        return <div className="fixed flex size-full items-center justify-center text-red-500">Error: {status.error.message}</div>
+    }
+
+    if (!status.online) {
+        return <div className="fixed flex size-full items-center justify-center text-red-500">Failed to connect to the chat room</div>
     }
 
     return (
