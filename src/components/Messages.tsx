@@ -11,7 +11,6 @@ export default function Messages({ messages }: { messages: IMessage[] }) {
 
     return (
         <div className="relative flex-1 overflow-hidden">
-            <div className="absolute flex size-full flex-col items-center justify-center text-3xl font-bold text-gray-200">Peer Chat</div>
             <div className="size-full overflow-auto pt-2">
                 {messages.map((message, index) => (
                     <Message key={index} message={message} />
