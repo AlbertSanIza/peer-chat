@@ -20,7 +20,7 @@ export default function Footer({ connection, onSendMessage }: { connection?: Dat
         if (!message.trim()) {
             return
         }
-        onSendMessage({ content: message, sender: 'me', timestamp: Date.now() })
+        onSendMessage({ content: message.trim(), sender: 'me', timestamp: Date.now() })
         setMessage('')
     }
 
@@ -35,8 +35,9 @@ export default function Footer({ connection, onSendMessage }: { connection?: Dat
                 onChange={(event) => setMessage(event.target.value)}
             />
             <button
-                className="absolute right-6 bottom-6 rounded-full bg-blue-500 p-2.5 text-white disabled:opacity-50"
+                className="absolute right-6 bottom-6 cursor-pointer rounded-full bg-blue-500 p-2.5 text-white disabled:cursor-default disabled:opacity-50"
                 disabled={!status.online || !connection}
+                onClick={handleSendMessage}
             >
                 <SendHorizonalIcon className="size-3" />
             </button>
