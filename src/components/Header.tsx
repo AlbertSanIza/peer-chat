@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import QRCode from 'react-qr-code'
 
-import { CameraIcon } from 'lucide-react'
 import { usePeer } from '../context/usePeer'
 
 export default function Header({ onConnect }: { onConnect: (peerId: string) => void }) {
@@ -33,18 +32,13 @@ export default function Header({ onConnect }: { onConnect: (peerId: string) => v
                         placeholder="Enter Peer ID"
                         onChange={(event) => setPeerId(event.target.value)}
                     />
-                    <div className="flex gap-2">
-                        <button
-                            className="w-full cursor-pointer rounded-md bg-blue-500 p-2 text-white disabled:cursor-default disabled:opacity-50 sm:w-fit"
-                            onClick={handleConnect}
-                            disabled={!peerId.trim()}
-                        >
-                            Connect
-                        </button>
-                        <button className="cursor-pointer rounded-md bg-blue-500 p-2 text-white disabled:cursor-default disabled:opacity-50">
-                            <CameraIcon className="" />
-                        </button>
-                    </div>
+                    <button
+                        className="w-full cursor-pointer rounded-md bg-blue-500 p-2 text-white disabled:cursor-default disabled:opacity-50 sm:w-fit"
+                        onClick={handleConnect}
+                        disabled={!peerId.trim()}
+                    >
+                        Connect
+                    </button>
                 </div>
             </div>
         </div>
