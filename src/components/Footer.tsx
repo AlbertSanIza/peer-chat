@@ -5,7 +5,7 @@ import { KeyboardEvent, useState } from 'react'
 import { usePeer } from '../context/usePeer'
 
 export default function Footer({ connection, onSendMessage }: { connection?: DataConnection; onSendMessage: (message: string) => void }) {
-    const { peer, status } = usePeer()
+    const { status } = usePeer()
     const [message, setMessage] = useState('')
 
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -29,8 +29,8 @@ export default function Footer({ connection, onSendMessage }: { connection?: Dat
                 placeholder="Type a message..."
                 className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2.5 disabled:opacity-50"
                 value={message}
-                disabled={!peer}
                 onKeyDown={handleKeyPress}
+                disabled={!status.online || !connection}
                 onChange={(event) => setMessage(event.target.value)}
             />
             <button
