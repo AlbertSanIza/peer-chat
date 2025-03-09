@@ -19,11 +19,11 @@ export default function Header({ onConnect }: { onConnect: (peerId: string) => v
             <div className="size-20 min-w-20">
                 <QRCode value={peer?.id || 'loading'} style={{ height: 'auto', maxWidth: '100%', width: '100%' }} />
             </div>
-            <div className="flex flex-1 flex-col gap-2">
+            <div className="flex flex-1 flex-col justify-between gap-2">
                 <div className="font-bold">{peer?.id.toUpperCase()}</div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                     <input
-                        className="h-10 rounded-sm border border-gray-300 px-2"
+                        className="h-10 flex-1 rounded-sm border border-gray-300 px-2"
                         placeholder="Enter Peer ID"
                         onChange={(event) => setPeerId(event.target.value)}
                     />
