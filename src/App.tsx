@@ -1,17 +1,17 @@
+import { LoaderIcon } from 'lucide-react'
 import type { DataConnection } from 'peerjs'
-import { KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import QRCode from 'react-qr-code'
 
-import { LoaderIcon, SendHorizonalIcon } from 'lucide-react'
 import { IMessage, Message } from './Message'
+import Footer from './components/Footer'
 import { usePeer } from './context/usePeer'
 
 export default function App() {
     const { peer, status } = usePeer()
     const [messages, setMessages] = useState<IMessage[]>([])
-    const [message, setMessage] = useState('')
     const [peerId, setPeerId] = useState('')
-    const [connection, setConnection] = useState<DataConnection | null>(null)
+    const [connection, setConnection] = useState<DataConnection | undefined>(undefined)
     const [connectedToPeer, setConnectedToPeer] = useState(false)
     const [connectionError, setConnectionError] = useState<string | null>(null)
     const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -63,25 +63,17 @@ export default function App() {
         })
     }
 
-    const sendMessage = () => {
-        if (!message.trim() || !connection) {
+    const sendMessage = (text: string) => {
+        if (!text.trim() || !connection) {
             return
         }
         const messageToSend: IMessage = {
-            content: message,
+            content: text,
             sender: 'me',
             timestamp: Date.now()
         }
         connection.send({ type: 'message', message: messageToSend })
         setMessages((prevMessages) => [...prevMessages, messageToSend])
-        setMessage('')
-    }
-
-    const handleKeyPress = (event: KeyboardEvent) => {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault()
-            sendMessage()
-        }
     }
 
     return (
@@ -98,7 +90,7 @@ export default function App() {
                                 {status.online && peer && <QRCode value={peer.id} style={{ height: 'auto', maxWidth: '100%', width: '100%' }} />}
                             </div>
                             <input className="border border-gray-300" placeholder="Enter Peer ID" onChange={(event) => setPeerId(event.target.value)} />
-                            <button className="rounded-md bg-blue-500 text-white" onClick={() => connectToPeer(peerId)}>
+                            <button className="rounded-md bg-blue-500 p-1 text-white" onClick={() => connectToPeer(peerId)}>
                                 Connect
                             </button>
                         </div>
@@ -112,22 +104,7 @@ export default function App() {
                         <div ref={messagesEndRef} />
                     </div>
                 </div>
-                <div className="flex border-t border-gray-300 p-4">
-                    <input
-                        placeholder="Type a message..."
-                        className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2.5 disabled:opacity-50"
-                        value={message}
-                        disabled={!peer}
-                        onKeyDown={handleKeyPress}
-                        onChange={(event) => setMessage(event.target.value)}
-                    />
-                    <button
-                        className="absolute right-6 bottom-6 rounded-full bg-blue-500 p-2.5 text-white disabled:opacity-50"
-                        disabled={!message || !connectedToPeer}
-                    >
-                        <SendHorizonalIcon className="size-3" />
-                    </button>
-                </div>
+                <Footer connection={connection} onSendMessage={(text) => sendMessage(text)} />
             </div>
         </>
     )
