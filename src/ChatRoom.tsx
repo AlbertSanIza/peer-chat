@@ -5,7 +5,7 @@ import QRCode from 'react-qr-code'
 import { v4 as uuidv4 } from 'uuid'
 
 import { usePeer } from '../context/usePeer'
-import { IMessage, Message } from './Message'
+import { IMessage, Message } from './components/Message'
 
 export function ChatRoom({ roomId }: { roomId: string }) {
     const { peer, status } = usePeer()

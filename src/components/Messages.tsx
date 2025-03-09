@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-import { IMessage, Message } from '../Message'
+import { IMessage, Message } from './Message'
 
 export default function Messages({ messages }: { messages: IMessage[] }) {
     const messagesEndRef = useRef<HTMLDivElement>(null)

@@ -3,7 +3,7 @@ import type { DataConnection } from 'peerjs'
 import { KeyboardEvent, useState } from 'react'
 
 import { usePeer } from '../context/usePeer'
-import { IMessage } from '../Message'
+import { IMessage } from './Message'
 
 export default function Footer({ connection, onSendMessage }: { connection?: DataConnection; onSendMessage: (message: IMessage) => void }) {
     const { status } = usePeer()

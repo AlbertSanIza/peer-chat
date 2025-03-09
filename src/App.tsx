@@ -3,8 +3,8 @@ import type { DataConnection } from 'peerjs'
 import { useEffect, useRef, useState } from 'react'
 import QRCode from 'react-qr-code'
 
-import { IMessage } from './Message'
 import Footer from './components/Footer'
+import { IMessage } from './components/Message'
 import Messages from './components/Messages'
 import { usePeer } from './context/usePeer'
 
