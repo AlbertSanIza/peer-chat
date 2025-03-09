@@ -78,7 +78,10 @@ export default function App() {
 
     return (
         <>
-            <div className="absolute flex size-full items-center justify-center text-3xl font-bold opacity-10">Peer Chat</div>
+            <div className="absolute flex size-full flex-col items-center justify-center text-3xl font-bold opacity-10">
+                <span>Peer Chat</span>
+                {status.loading ? <LoaderIcon className="animate-spin" /> : null}
+            </div>
             <div className="fixed flex size-full flex-col">
                 <div className="border-b border-gray-300 p-4">
                     {status.loading ? (
