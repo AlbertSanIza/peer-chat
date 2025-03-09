@@ -40,7 +40,6 @@ export function ChatRoom({ roomId }: { roomId: string }) {
 
     const setupConnection = (connection: DataConnection) => {
         connection.on('open', () => {
-            console.log('Connected to peer')
             setConnection(connection)
             setConnectedToPeer(true)
             setConnectionError(null)
@@ -57,15 +56,11 @@ export function ChatRoom({ roomId }: { roomId: string }) {
                 ])
             }
         })
-
         connection.on('close', () => {
-            console.log('Connection closed')
             setConnectedToPeer(false)
-            setConnectionError('Peer disconnected')
         })
-        connection.on('error', (err: Error) => {
-            console.error('Connection error:', err)
-            setConnectionError('Connection error: ' + err.message)
+        connection.on('error', (error: Error) => {
+            setConnectionError(error.message)
         })
     }
 
