@@ -13,7 +13,6 @@ export default function App() {
     const [messages, setMessages] = useState<IMessage[]>([])
     const [connection, setConnection] = useState<DataConnection | undefined>(undefined)
     const [connectedToPeer, setConnectedToPeer] = useState(false)
-    const [connectionError, setConnectionError] = useState<string | null>(null)
 
     useEffect(() => {
         if (!peer) {
@@ -36,7 +35,6 @@ export default function App() {
         connection.on('open', () => {
             setConnection(connection)
             setConnectedToPeer(true)
-            setConnectionError(null)
         })
         connection.on('data', (data: unknown) => {
             const message = data as { type: string; message: IMessage }
@@ -52,9 +50,6 @@ export default function App() {
         })
         connection.on('close', () => {
             setConnectedToPeer(false)
-        })
-        connection.on('error', (error: Error) => {
-            setConnectionError(error.message)
         })
     }
 
@@ -76,10 +71,6 @@ export default function App() {
 
     if (status.error) {
         return <div className="fixed flex size-full items-center justify-center text-red-500">Error: {status.error.message}</div>
-    }
-
-    if (!status.online) {
-        return <div className="fixed flex size-full items-center justify-center text-red-500">Failed to connect to the chat room</div>
     }
 
     return (
