@@ -16,7 +16,7 @@ export default function Header({ onConnect }: { onConnect: (peerId: string) => v
     return (
         <div className="flex items-center justify-center border-b border-gray-300 p-4">
             <div className="flex flex-col items-center justify-center gap-4">
-                <div>My ID: {peer?.id.toUpperCase()}</div>
+                <div className="w-full text-center font-bold">{peer?.id.toUpperCase()}</div>
                 <input className="border border-gray-300" placeholder="Enter Peer ID" onChange={(event) => setPeerId(event.target.value)} />
                 <button
                     className="cursor-pointer rounded-md bg-blue-500 p-1 text-white disabled:cursor-default disabled:opacity-50"
