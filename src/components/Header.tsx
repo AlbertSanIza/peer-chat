@@ -22,7 +22,9 @@ export default function Header({ onConnect }: { onConnect: (peerId: string) => v
             </div>
             <div className="flex flex-1 flex-col justify-between gap-2">
                 <div className="flex justify-between gap-4 text-sm font-bold sm:text-lg">
-                    {peer?.id.toUpperCase()}
+                    <button className="cursor-pointer" onClick={() => navigator.clipboard.writeText(peer?.id || '')}>
+                        {peer?.id.toUpperCase()}
+                    </button>
                     <div className="size-3 min-w-3 animate-pulse rounded-full bg-red-500"></div>
                 </div>
                 <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
