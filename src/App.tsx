@@ -1,7 +1,7 @@
+import { LoaderIcon } from 'lucide-react'
 import type { DataConnection } from 'peerjs'
 import { useEffect, useState } from 'react'
 
-import { LoaderIcon } from 'lucide-react'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import { IMessage } from './components/Message'
@@ -11,7 +11,6 @@ import { usePeer } from './context/usePeer'
 export default function App() {
     const { peer, status } = usePeer()
     const [messages, setMessages] = useState<IMessage[]>([])
-    const [peerId, setPeerId] = useState('')
     const [connection, setConnection] = useState<DataConnection | undefined>(undefined)
     const [connectedToPeer, setConnectedToPeer] = useState(false)
     const [connectionError, setConnectionError] = useState<string | null>(null)
