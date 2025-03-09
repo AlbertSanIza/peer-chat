@@ -74,7 +74,7 @@ export default function App() {
 
     return (
         <div className="fixed flex size-full flex-col">
-            <Header onConnect={handleOnConnect} />
+            <Header connected={connected} onConnect={handleOnConnect} />
             <Messages messages={messages} />
             <Footer connection={lastConnection} onSendMessage={(message) => sendMessage(message)} />
         </div>
