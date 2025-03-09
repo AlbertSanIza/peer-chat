@@ -12,7 +12,7 @@ export default function Header({ onConnect }: { onConnect: (peerId: string) => v
         if (!peerId.trim()) {
             return
         }
-        onConnect(peerId.trim().toLowerCase())
+        onConnect(peerId.trim())
     }
 
     return (
@@ -23,7 +23,7 @@ export default function Header({ onConnect }: { onConnect: (peerId: string) => v
             <div className="flex flex-1 flex-col justify-between gap-2">
                 <div className="flex justify-between gap-4 text-sm font-bold sm:text-lg">
                     <button className="cursor-pointer" onClick={() => navigator.clipboard.writeText(peer?.id || '')}>
-                        {peer?.id.toUpperCase()}
+                        {peer?.id}
                     </button>
                     <div className="size-3 min-w-3 animate-pulse rounded-full bg-red-500"></div>
                 </div>
