@@ -1,6 +1,6 @@
 import { LoaderIcon } from 'lucide-react'
 import type { DataConnection } from 'peerjs'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import QRCode from 'react-qr-code'
 
 import Footer from './components/Footer'
@@ -15,11 +15,6 @@ export default function App() {
     const [connection, setConnection] = useState<DataConnection | undefined>(undefined)
     const [connectedToPeer, setConnectedToPeer] = useState(false)
     const [connectionError, setConnectionError] = useState<string | null>(null)
-    const messagesEndRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-    }, [messages])
 
     useEffect(() => {
         if (!peer) {
