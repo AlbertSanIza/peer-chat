@@ -11,30 +11,29 @@ import { usePeer } from './context/usePeer'
 export default function App() {
     const { peer, status } = usePeer()
     const [messages, setMessages] = useState<IMessage[]>([])
-    const [connection, setConnection] = useState<DataConnection | undefined>(undefined)
-    const [connectedToPeer, setConnectedToPeer] = useState(false)
+    const [lastConnection, setLastConnection] = useState<DataConnection | undefined>(undefined)
+    const [connected, setConnected] = useState(false)
 
     useEffect(() => {
         if (!peer) {
             return
         }
-        peer.on('connection', (conn) => {
-            setupConnection(conn)
+        peer.on('connection', (connection) => {
+            setupConnection(connection) // changed from conn to connection
         })
     }, [peer])
 
-    const connectToPeer = (peerId: string) => {
+    const handleOnConnect = (peerId: string) => {
         if (!peer) {
             return
         }
-        const conn = peer.connect(peerId)
-        setupConnection(conn)
+        setupConnection(peer.connect(peerId))
     }
 
     const setupConnection = (connection: DataConnection) => {
         connection.on('open', () => {
-            setConnection(connection)
-            setConnectedToPeer(true)
+            setLastConnection(connection)
+            setConnected(true)
         })
         connection.on('data', (data: unknown) => {
             const message = data as { type: string; message: IMessage }
@@ -49,15 +48,15 @@ export default function App() {
             }
         })
         connection.on('close', () => {
-            setConnectedToPeer(false)
+            setConnected(false)
         })
     }
 
     const sendMessage = (message: IMessage) => {
-        if (!connection) {
+        if (!lastConnection) {
             return
         }
-        connection.send({ type: 'message', message })
+        lastConnection.send({ type: 'message', message })
         setMessages((prevMessages) => [...prevMessages, message])
     }
 
@@ -75,9 +74,9 @@ export default function App() {
 
     return (
         <div className="fixed flex size-full flex-col">
-            <Header onConnect={connectToPeer} />
+            <Header onConnect={handleOnConnect} />
             <Messages messages={messages} />
-            <Footer connection={connection} onSendMessage={(message) => sendMessage(message)} />
+            <Footer connection={lastConnection} onSendMessage={(message) => sendMessage(message)} />
         </div>
     )
 }
