@@ -63,17 +63,12 @@ export default function App() {
         })
     }
 
-    const sendMessage = (text: string) => {
-        if (!text.trim() || !connection) {
+    const sendMessage = (message: IMessage) => {
+        if (!connection) {
             return
         }
-        const messageToSend: IMessage = {
-            content: text,
-            sender: 'me',
-            timestamp: Date.now()
-        }
-        connection.send({ type: 'message', message: messageToSend })
-        setMessages((prevMessages) => [...prevMessages, messageToSend])
+        connection.send({ type: 'message', message })
+        setMessages((prevMessages) => [...prevMessages, message])
     }
 
     return (
@@ -107,7 +102,7 @@ export default function App() {
                         <div ref={messagesEndRef} />
                     </div>
                 </div>
-                <Footer connection={connection} onSendMessage={(text) => sendMessage(text)} />
+                <Footer connection={connection} onSendMessage={(message) => sendMessage(message)} />
             </div>
         </>
     )

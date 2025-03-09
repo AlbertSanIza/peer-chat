@@ -3,8 +3,9 @@ import type { DataConnection } from 'peerjs'
 import { KeyboardEvent, useState } from 'react'
 
 import { usePeer } from '../context/usePeer'
+import { IMessage } from '../Message'
 
-export default function Footer({ connection, onSendMessage }: { connection?: DataConnection; onSendMessage: (message: string) => void }) {
+export default function Footer({ connection, onSendMessage }: { connection?: DataConnection; onSendMessage: (message: IMessage) => void }) {
     const { status } = usePeer()
     const [message, setMessage] = useState('')
 
@@ -19,7 +20,7 @@ export default function Footer({ connection, onSendMessage }: { connection?: Dat
         if (!message.trim()) {
             return
         }
-        onSendMessage(message)
+        onSendMessage({ content: message, sender: 'me', timestamp: Date.now() })
         setMessage('')
     }
 
@@ -35,7 +36,7 @@ export default function Footer({ connection, onSendMessage }: { connection?: Dat
             />
             <button
                 className="absolute right-6 bottom-6 rounded-full bg-blue-500 p-2.5 text-white disabled:opacity-50"
-                disabled={!message.trim() || !status.online || !connection}
+                disabled={!status.online || !connection}
             >
                 <SendHorizonalIcon className="size-3" />
             </button>
