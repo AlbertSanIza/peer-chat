@@ -3,7 +3,7 @@ import QRCode from 'react-qr-code'
 
 import { usePeer } from '../context/usePeer'
 
-export default function Header({ onConnect }: { onConnect: (peerId: string) => void }) {
+export default function Header({ connected, onConnect }: { connected: boolean; onConnect: (peerId: string) => void }) {
     const { peer } = usePeer()
     const [peerId, setPeerId] = useState('')
 
@@ -24,7 +24,7 @@ export default function Header({ onConnect }: { onConnect: (peerId: string) => v
                     <button className="cursor-pointer" onClick={() => navigator.clipboard.writeText(peer?.id || '')}>
                         {peer?.id}
                     </button>
-                    <div className="size-3 min-w-3 animate-pulse rounded-full bg-red-500"></div>
+                    <div className={`size-3 min-w-3 ${connected ? '' : 'animate-pulse'} rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`}></div>
                 </div>
                 <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
                     <input
