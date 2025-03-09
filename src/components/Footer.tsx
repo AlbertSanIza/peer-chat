@@ -24,7 +24,7 @@ export default function Footer({ connection, onSendMessage }: { connection?: Dat
     }
 
     return (
-        <div className="flex border-t border-gray-300 bg-amber-50 p-4">
+        <div className="flex border-t border-gray-300 p-4">
             <input
                 placeholder="Type a message..."
                 className="h-12 w-full rounded-3xl border border-gray-300 pr-11 pl-2.5 disabled:opacity-50"
