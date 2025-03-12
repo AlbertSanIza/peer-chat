@@ -30,6 +30,14 @@ export default function App() {
         setupConnection(peer.connect(peerId))
     }
 
+    const handleOnDisconnect = () => {
+        if (!lastConnection) {
+            return
+        }
+        lastConnection.close()
+        setConnected(false)
+    }
+
     const setupConnection = (connection: DataConnection) => {
         connection.on('open', () => {
             setLastConnection(connection)
@@ -74,7 +82,7 @@ export default function App() {
 
     return (
         <div className="fixed flex size-full flex-col">
-            <Header connected={connected} onConnect={handleOnConnect} />
+            <Header connected={connected} onConnect={handleOnConnect} onDisconnect={handleOnDisconnect} />
             <Messages messages={messages} />
             <Footer connection={lastConnection} onSendMessage={(message) => sendMessage(message)} />
         </div>
