@@ -10,4 +10,3 @@ https://albertsaniza.github.io/peer-chat
 - React
 - Tailwind
 - PeerJs
-- React QR Code
