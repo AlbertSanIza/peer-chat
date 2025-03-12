@@ -37,7 +37,7 @@ export default function Header({ connected, onConnect, onDisconnect }: { connect
                     />
                 )}
                 <button
-                    className={`w-full cursor-pointer rounded-md ${connected ? 'bg-red-500' : 'bg-blue-500'} p-2 text-white disabled:cursor-default disabled:opacity-50 sm:w-fit`}
+                    className={`w-full cursor-pointer rounded-md ${connected ? 'bg-red-500' : 'bg-blue-500'} p-2 text-white disabled:cursor-default disabled:opacity-50 ${connected ? '' : 'sm:w-fit'}`}
                     disabled={!peerId.trim() && !connected}
                     onClick={connected ? onDisconnect : handleConnect}
                 >
