@@ -19,7 +19,7 @@ export default function App() {
             return
         }
         peer.on('connection', (connection) => {
-            setupConnection(connection) // changed from conn to connection
+            setupConnection(connection)
         })
     }, [peer])
 
