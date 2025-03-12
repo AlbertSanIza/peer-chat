@@ -21,6 +21,17 @@ export default function App() {
         peer.on('connection', (connection) => {
             setupConnection(connection)
         })
+        peer.on('disconnected', () => {
+            setConnected(false)
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                    content: 'Disconnected from Peer',
+                    sender: 'system',
+                    timestamp: Date.now()
+                }
+            ])
+        })
     }, [peer])
 
     const handleOnConnect = (peerId: string) => {
@@ -42,6 +53,14 @@ export default function App() {
         connection.on('open', () => {
             setLastConnection(connection)
             setConnected(true)
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                    content: 'Connected to Peer',
+                    sender: 'system',
+                    timestamp: Date.now()
+                }
+            ])
         })
         connection.on('data', (data: unknown) => {
             const message = data as { type: string; message: IMessage }
@@ -57,6 +76,14 @@ export default function App() {
         })
         connection.on('close', () => {
             setConnected(false)
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                    content: 'Disconnected from Peer',
+                    sender: 'system',
+                    timestamp: Date.now()
+                }
+            ])
         })
     }
 
@@ -84,7 +111,7 @@ export default function App() {
         <div className="fixed flex size-full flex-col">
             <Header connected={connected} onConnect={handleOnConnect} onDisconnect={handleOnDisconnect} />
             <Messages messages={messages} />
-            <Footer connection={lastConnection} onSendMessage={(message) => sendMessage(message)} />
+            <Footer connected={connected} connection={lastConnection} onSendMessage={(message) => sendMessage(message)} />
         </div>
     )
 }

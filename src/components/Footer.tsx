@@ -5,7 +5,15 @@ import { KeyboardEvent, useState } from 'react'
 import { usePeer } from '../context/usePeer'
 import { IMessage } from './Message'
 
-export default function Footer({ connection, onSendMessage }: { connection?: DataConnection; onSendMessage: (message: IMessage) => void }) {
+export default function Footer({
+    connected,
+    connection,
+    onSendMessage
+}: {
+    connected: boolean
+    connection?: DataConnection
+    onSendMessage: (message: IMessage) => void
+}) {
     const { status } = usePeer()
     const [message, setMessage] = useState('')
 
@@ -36,7 +44,7 @@ export default function Footer({ connection, onSendMessage }: { connection?: Dat
             />
             <button
                 className="absolute right-6 bottom-6 cursor-pointer rounded-full bg-blue-500 p-2.5 text-white disabled:cursor-default disabled:opacity-50"
-                disabled={!status.online || !connection}
+                disabled={!status.online || !connection || !connected}
                 onClick={handleSendMessage}
             >
                 <SendHorizonalIcon className="size-3" />
